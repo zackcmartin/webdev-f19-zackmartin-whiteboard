@@ -1,0 +1,17 @@
+body { padding-top: 80px; }
+
+.underHeader { font-weight: bold;
+            }
+
+.hamburgerStyle { padding: 0;
+               border: none;
+               background: none;
+               color: white;
+            }
+
+.deleteStyle { padding: 0;
+    border: none;
+    background: none;
+    }
+
+.submissionButton { padding-left: 10px; }

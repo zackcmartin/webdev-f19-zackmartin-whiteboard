@@ -1,0 +1,16 @@
+body { 
+    padding-top: 80px; }
+
+.fa-times{
+    color:white;
+}
+
+.fa-circle{
+    color:blue;
+}
+
+.closeStyle { padding: 0;
+    border: none;
+    background: none;
+    color: white;
+}
