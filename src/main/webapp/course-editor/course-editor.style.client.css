@@ -14,3 +14,15 @@ body {
     background: none;
     color: white;
 }
+
+@media (min-width: 0px) and (max-width: 577px){
+    body { padding-top: 200px; }
+}
+
+@media (min-width: 0px) and (max-width: 577px){
+    #widthHelp { width: 200px; }
+}
+
+@media (min-width: 0px) and (max-width: 577px){
+    #padHelp { padding-left: 150px; }
+}

@@ -14,7 +14,8 @@
 
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
                 <div class="col-sm-2">
-                    <button class="btn wbdv-course-editor wbdv-close closeStyle">
+                    <button class="btn wbdv-course-editor wbdv-close closeStyle"
+                        onclick="window.location.href = '../course-list/course-list.template.client.html';">
                         <span class="fa-2x">
                                 <i class="fas fa-times"></i>
                         </span>
@@ -56,7 +57,7 @@
 
             <div class="row">
                 <div class="col-3">
-                    <div class="list-group wbdv-module-list">
+                    <div id="widthHelp" class="list-group wbdv-module-list">
                         <a href="#" class="active list-group-item list-group-item-action wbdv-module-item wbdv-module-item-title">
                             HTML
                             <div class="float-right">
@@ -92,7 +93,7 @@
                     </div>
                 </div>
                 <div class="col-9">
-                    <ul class="nav nav-pills wbdv-topic-pill-list">
+                    <ul id="padHelp" class="nav nav-pills wbdv-topic-pill-list">
                         <li class="nav-item wbdv-topic-pill">
                             <a class="nav-link active" href="#">Topic1</a>
                         </li>
