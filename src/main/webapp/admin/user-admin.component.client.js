@@ -3,6 +3,7 @@
     var $removeBtn, $editBtn, $createBtn;
     var $firstNameFld, $lastNameFld;
     var $userRowTemplate, $tbody;
+    var $roleFld
     var userService = new AdminUserServiceClient();
     var $user;
 
@@ -18,7 +19,8 @@
         $passwordFld = $(".wbdv-passwordFld");
         $firstNameFld = $(".wbdv-firstNameFld");
         $lastNameFld = $(".wbdv-lastNameFld");
-        
+        $roleFld = $(".wbdv-roleFld")
+         
         $createBtn = $(".wbdv-create");
         $createBtn.click(createUser);
 
@@ -30,37 +32,40 @@
         const newPassword = $passwordFld.val();
         const newFirstName = $firstNameFld.val();
         const newLastName = $lastNameFld.val();
+        const role = $roleFld.val();
 
         const newUser = {
             username: newUsername,
             password: newPassword,
             firstName: newFirstName,
             lastName: newLastName,
+            role: role,
             id: (Date.now()) + ''
         }
 
+        userService.createUser(newUser).then(findAllUsers);
 
-        users.push(newUser);
+        // users.push(newUser);
 
-        renderUsers(users);
+        // renderUsers(users);
      }
     function findAllUsers() { 
-        fetch("https://wbdv-generic-server.herokuapp.com/api/zackmartin/users")
-        .then(response => response.json())
-        .then(renderUsers)
+        userService.findAllUsers().then(renderUsers);
      }
-    function findUserById() {  }
+    function findUserById(userId) { 
+        userService.findUserById(userId).then(selectUser);
+     }
+
+
     function deleteUser() { 
         const deleteButton = $(event.currentTarget);
         const userIdToDelete = deleteButton.attr("id");
 
-        users = users.filter(function(user) {
-            return user.id != userIdToDelete;
-        })
-
-        renderUsers(users);
+        userService.deleteUser(userIdToDelete).then(findAllUsers);
      }
-    function selectUser() {  }
+
+
+    function selectUser() { }
     function updateUser() { }
     function renderUser(user) { }
     function renderUsers(users) { 
@@ -75,10 +80,18 @@
             $td.html(users[i].firstName);
             $td = $tr.find(".wbdv-last-name");
             $td.html(users[i].lastName);
+            $td = $tr.find(".wbdv-role");
+            $td.html(users[i].role);
             
             $removeBtn = $tr.find(".wbdv-remove");
             $removeBtn.click(deleteUser);
             $removeBtn.attr("id", users[i].id);
+
+            $editBtn = $tr.find(".wbdv-edit");
+            $editBtn.click(findUserById(users[i].id));
+            $editBtn.attr("id", users[i].id);
+
+            console.log(users[i]);
 
 
             $tbody.append($tr);

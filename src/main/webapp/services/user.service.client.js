@@ -6,9 +6,30 @@ function AdminUserServiceClient() {
     this.updateUser = updateUser;
     //this.url = 'https://wbdv-generic-server.herokuapp.com/api/jannunzi/users';
     var self = this;
-    function createUser(user, callback) {  }
-    function findAllUsers(callback) {  }
-    function findUserById(userId, callback) {  }
+
+    function createUser(user, callback) { 
+        return fetch("https://wbdv-generic-server.herokuapp.com/api/zackmartin/users", {
+			method: 'post',
+			body: JSON.stringify(user),
+			headers: {
+				'content-type': 'application/json'
+			}
+		})
+     }
+
+    function findAllUsers(callback) { 
+        return fetch("https://wbdv-generic-server.herokuapp.com/api/zackmartin/users")
+        .then(response => response.json())
+     }
+
+    function findUserById(userId, callback) { 
+        return fetch("https://wbdv-generic-server.herokuapp.com/api/zackmartin/users/" + userId)
+     }
+
     function updateUser(userId, user, callback) {  }
-    function deleteUser(userId, callback) {  }
+
+    function deleteUser(userId, callback) { 
+        return fetch("https://wbdv-generic-server.herokuapp.com/api/zackmartin/users/" + userId, {
+			method: 'delete'})
+     }
 }
