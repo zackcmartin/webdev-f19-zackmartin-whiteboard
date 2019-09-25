@@ -11,7 +11,7 @@
     $(main);
 
 
-    function main() { 
+    function main() {
         $tbody = $(".wbdv-tbody");
         $form = $(".wbdv-form");
         $userRowTemplate = $(".wbdv-template");
@@ -20,7 +20,7 @@
         $firstNameFld = $("#firstNameFld");
         $lastNameFld = $("#lastNameFld");
         $roleFld = $("#roleFld")
-         
+
         $createBtn = $(".wbdv-create");
         $createBtn.click(createUser);
 
@@ -29,8 +29,8 @@
 
         findAllUsers();
 
-     }
-    function createUser() { 
+    }
+    function createUser() {
         const newUsername = $usernameFld.val();
         const newPassword = $passwordFld.val();
         const newFirstName = $firstNameFld.val();
@@ -47,28 +47,28 @@
         }
 
         userService.createUser(newUser).then(clearForm).then(findAllUsers);
-     }
+    }
 
 
-    function findAllUsers() { 
+    function findAllUsers() {
         userService.findAllUsers().then(renderUsers);
-     }
+    }
 
 
-    function findUserById(userId) { 
+    function findUserById(userId) {
         userService.findUserById(userId).then(renderUser);
-     }
+    }
 
 
-    function deleteUser() { 
+    function deleteUser() {
         const deleteButton = $(event.currentTarget);
         const userIdToDelete = deleteButton.attr("id");
 
         userService.deleteUser(userIdToDelete).then(findAllUsers);
-     }
+    }
 
 
-    function selectUser() { 
+    function selectUser() {
         const editButton = $(event.currentTarget);
         const userIdToEdit = editButton.attr("id");
         findUserById(userIdToEdit);
@@ -76,8 +76,8 @@
     }
 
 
-    function updateUser() { 
-        if(currentEdit != -1){
+    function updateUser() {
+        if (currentEdit != -1) {
             const editedUser = {
                 username: $usernameFld.val(),
                 password: $passwordFld.val(),
@@ -91,7 +91,7 @@
     }
 
 
-    function renderUser(user) { 
+    function renderUser(user) {
         $usernameFld.val(user.username);
         $passwordFld.val(user.password);
         $firstNameFld.val(user.firstName);
@@ -100,7 +100,7 @@
 
     }
 
-    function clearForm(){
+    function clearForm() {
         $usernameFld.val("");
         $passwordFld.val("");
         $firstNameFld.val("");
@@ -108,11 +108,11 @@
         currentEdit = 1;
     }
 
-    function renderUsers(users) { 
+    function renderUsers(users) {
 
         $tbody.empty();
 
-        for(var i=0; i<users.length; i++){
+        for (var i = 0; i < users.length; i++) {
             $tr = $userRowTemplate.clone();
             $td = $tr.find(".wbdv-username");
             $td.html(users[i].username);
@@ -122,7 +122,7 @@
             $td.html(users[i].lastName);
             $td = $tr.find(".wbdv-role");
             $td.html(users[i].role);
-            
+
             $removeBtn = $tr.find(".wbdv-remove");
             $removeBtn.click(deleteUser);
             $removeBtn.attr("id", users[i].id);
