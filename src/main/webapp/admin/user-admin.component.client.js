@@ -3,26 +3,29 @@
     var $removeBtn, $editBtn, $createBtn;
     var $firstNameFld, $lastNameFld;
     var $userRowTemplate, $tbody;
-    var $roleFld
+    var $roleFld, $updateBtn;
     var userService = new AdminUserServiceClient();
     var $user;
+    var currentEdit = -1;
 
     $(main);
 
-    let users = [
-    ]
 
     function main() { 
         $tbody = $(".wbdv-tbody");
+        $form = $(".wbdv-form");
         $userRowTemplate = $(".wbdv-template");
-        $usernameFld = $(".wbdv-userNameFld");
-        $passwordFld = $(".wbdv-passwordFld");
-        $firstNameFld = $(".wbdv-firstNameFld");
-        $lastNameFld = $(".wbdv-lastNameFld");
-        $roleFld = $(".wbdv-roleFld")
+        $usernameFld = $("#usernameFld");
+        $passwordFld = $("#passwordFld");
+        $firstNameFld = $("#firstNameFld");
+        $lastNameFld = $("#lastNameFld");
+        $roleFld = $("#roleFld")
          
         $createBtn = $(".wbdv-create");
         $createBtn.click(createUser);
+
+        $updateBtn = $(".wbdv-update");
+        $updateBtn.click(updateUser);
 
         findAllUsers();
 
@@ -43,17 +46,17 @@
             id: (Date.now()) + ''
         }
 
-        userService.createUser(newUser).then(findAllUsers);
-
-        // users.push(newUser);
-
-        // renderUsers(users);
+        userService.createUser(newUser).then(clearForm).then(findAllUsers);
      }
+
+
     function findAllUsers() { 
         userService.findAllUsers().then(renderUsers);
      }
+
+
     function findUserById(userId) { 
-        userService.findUserById(userId).then(selectUser);
+        userService.findUserById(userId).then(renderUser);
      }
 
 
@@ -65,9 +68,46 @@
      }
 
 
-    function selectUser() { }
-    function updateUser() { }
-    function renderUser(user) { }
+    function selectUser() { 
+        const editButton = $(event.currentTarget);
+        const userIdToEdit = editButton.attr("id");
+        findUserById(userIdToEdit);
+        currentEdit = userIdToEdit;
+    }
+
+
+    function updateUser() { 
+        if(currentEdit != -1){
+            const editedUser = {
+                username: $usernameFld.val(),
+                password: $passwordFld.val(),
+                firstName: $firstNameFld.val(),
+                lastName: $lastNameFld.val(),
+                role: $roleFld.val()
+            }
+
+            userService.updateUser(currentEdit, editedUser).then(clearForm).then(findAllUsers);
+        }
+    }
+
+
+    function renderUser(user) { 
+        $usernameFld.val(user.username);
+        $passwordFld.val(user.password);
+        $firstNameFld.val(user.firstName);
+        $lastNameFld.val(user.lastName)
+        $roleFld.val(user.role)
+
+    }
+
+    function clearForm(){
+        $usernameFld.val("");
+        $passwordFld.val("");
+        $firstNameFld.val("");
+        $lastNameFld.val("")
+        currentEdit = 1;
+    }
+
     function renderUsers(users) { 
 
         $tbody.empty();
@@ -88,10 +128,8 @@
             $removeBtn.attr("id", users[i].id);
 
             $editBtn = $tr.find(".wbdv-edit");
-            $editBtn.click(findUserById(users[i].id));
+            $editBtn.click(selectUser);
             $editBtn.attr("id", users[i].id);
-
-            console.log(users[i]);
 
 
             $tbody.append($tr);

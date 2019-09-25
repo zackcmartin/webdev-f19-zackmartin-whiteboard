@@ -24,9 +24,18 @@ function AdminUserServiceClient() {
 
     function findUserById(userId, callback) { 
         return fetch("https://wbdv-generic-server.herokuapp.com/api/zackmartin/users/" + userId)
+        .then(response => response.json())
      }
 
-    function updateUser(userId, user, callback) {  }
+    function updateUser(userId, user, callback) { 
+        return fetch("https://wbdv-generic-server.herokuapp.com/api/zackmartin/users/" + userId, {
+            method:'put',
+            body: JSON.stringify(user),
+            headers: {
+              'content-type': 'application/json'
+            }
+            })
+     }
 
     function deleteUser(userId, callback) { 
         return fetch("https://wbdv-generic-server.herokuapp.com/api/zackmartin/users/" + userId, {
